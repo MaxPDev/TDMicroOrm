@@ -1,8 +1,8 @@
 {
     "autoload": {
         "psr-4": {
-            "hellokant\\": "src/",
-            "mf\\": "src/mf/"
+            "hellokant\\": "./src/",
+            "mf\\": "./src/mf/"
         }
     }
 }
