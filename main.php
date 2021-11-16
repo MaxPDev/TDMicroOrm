@@ -15,4 +15,9 @@ use hellokant\query\Query;
 
 //////////////////////////////:://///////
 
-Query::test();
+$q = Query::table('article');
+$q = $q->select(['id', 'nom']);
+$q = $q->where('tarif','<',1000);
+$req = $q->get();
+
+var_dump($req);
