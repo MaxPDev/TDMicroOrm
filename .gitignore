@@ -1,0 +1,6 @@
+conf/conf.ini
+vendor/
+*.lock
+*.json
+composer.phar
+.sass-cache/
