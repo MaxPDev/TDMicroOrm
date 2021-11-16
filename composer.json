@@ -1,0 +1,14 @@
+{
+    "name": "MicroOrm",
+    "authors": [
+        {
+            "name": "Maxime Piscaglia",
+            "email": "maximepiscaglia@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MON_NAME_SPACE\\": "src/"
+        }
+    }
+}
