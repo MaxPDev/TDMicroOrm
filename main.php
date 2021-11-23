@@ -21,3 +21,15 @@ $q = $q->where('tarif','<',1000);
 $req = $q->get();
 
 var_dump($req);
+
+$id = Query::table('article')->insert(['nom'=>'grovelo', 'tarif'=>200]);
+
+echo 'article inséré id : ' . $id .'\n';
+
+// $qd = Query::table('article')->where('id', '=', $id) ;
+// $qd->delete();
+
+// $q = Query::table('article')
+//     ->select(['id', 'nom', 'descr', 'tarif'])
+//     ->where('tarif', '<', 1000)
+//     ->get();

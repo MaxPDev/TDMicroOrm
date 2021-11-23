@@ -81,5 +81,36 @@ class Query {
 
     }
 
+    
+    public function insert(array $datas) : string {
+
+        $atts = "";
+        $vals = "";
+
+        foreach ($datas as $attribut => $value) {
+
+            if ($attribut !== array_key_last($datas)) {
+                $atts .= $attribut . ', ';
+                $vals .= $value . ', '; 
+            } else {
+                $atts .= $attribut;
+                $vals .= $value ;
+            }
+        }
+
+        $this->sql = 'insert into ' . $this->sqltable .
+                    ' (' . $atts . ')' . ' values ' .
+                    '(' . $vals . ');';
+
+        return $this->sql;
+        
+        // INSERT INTO client (prenom, nom, ville, age)
+        // VALUES
+        // ('Rébecca', 'Armand', 'Saint-Didier-des-Bois', 24),
+        // ('Aimée', 'Hebert', 'Marigny-le-Châtel', 36),
+        // ('Marielle', 'Ribeiro', 'Maillères', 27),
+        // ('Hilaire', 'Savary', 'Conie-Molitard', 58);
+    }
+
 
 }
