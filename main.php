@@ -26,10 +26,12 @@ $id = Query::table('article')->insert(['nom'=>'grovelo', 'tarif'=>200]);
 
 echo 'article inséré id : ' . $id .'\n';
 
-// $qd = Query::table('article')->where('id', '=', $id) ;
-// $qd->delete();
+$qd = Query::table('article')->where('id', '=', $id) ;
+echo($qd->delete());
 
-// $q = Query::table('article')
-//     ->select(['id', 'nom', 'descr', 'tarif'])
-//     ->where('tarif', '<', 1000)
-//     ->get();
+$q = Query::table('article')
+    ->select(['id', 'nom', 'descr', 'tarif'])
+    ->where('tarif', '<', 1000)
+    ->get();
+
+var_dump($q);

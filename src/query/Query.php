@@ -67,10 +67,12 @@ class Query {
         $this->sql = 'select ' . $this->fields . // later : ?.
                      ' from ' . $this->sqltable;
 
+        if (!is_null($this->where)) {
+            $this->sql .= ' where ' . $this->where;
+        }
+
         return $this->sql; //pour echo pour check
 
-        // // if (!is_null($this->where))
-        // //         $this->sql .= ' where ' . $this->where;
 
         // idem avec order, groupBy, si on veut
 
@@ -111,6 +113,17 @@ class Query {
         // ('Marielle', 'Ribeiro', 'Maillères', 27),
         // ('Hilaire', 'Savary', 'Conie-Molitard', 58);
     }
+
+    public function delete() {
+        
+        $this->sql = 'delete from ' . $this->sqltable .
+                    ' where ' . $this->where;
+
+        return $this->sql;
+    }
+
+    // DELETE FROM `table`
+    // WHERE condition
 
 
 }
