@@ -13,6 +13,11 @@ require __DIR__ . '/vendor/autoload.php';
 // Query use
 use hellokant\query\Query;
 
+// Connection with DB
+use hellokant\query\ConnectionFactory;
+$conf = parse_ini_file('conf/conf.ini');
+ConnectionFactory::makeConnection($conf);
+
 //////////////////////////////:://///////
 
 $q = Query::table('article');
