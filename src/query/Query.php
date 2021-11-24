@@ -48,14 +48,15 @@ class Query {
         return $this;
     }
 
-//     public static functin orWhere
-        /**
-     * if (!is_null($this->where)) $this->where .= ' or ';
-     * $this->where .= ' ' . $col . ' ' . $op . ' ? ';
-     * $this->args[]=$val;
-     * return $this;
-     */
+    public function orWhere(string $col, string $op, $val) : Query {
+        if (!is_null($this->where)) {
+            $this->where .= ' or ';
+        }
+        $this->where .= ' ' . $col . ' ' . $op . ' ? ';
+        $this->args[]=$val;
 
+        return $this;
+    }
 
       /* Query::table('client')->select(['nom', 'mail'])
                     ->where('ville', 'like', 'nancy')
@@ -83,7 +84,7 @@ class Query {
 
     }
 
-    
+    // A REFAIORE POUR AVEC LES ATTRIB DE CLASS POUR CHAINER
     public function insert(array $datas) : string {
 
         $atts = "";
@@ -93,10 +94,12 @@ class Query {
 
             if ($attribut !== array_key_last($datas)) {
                 $atts .= $attribut . ', ';
-                $vals .= $value . ', '; 
+                $vals .= ' ? ' . ', '; 
+                $this->args[] = $value;
             } else {
                 $atts .= $attribut;
-                $vals .= $value ;
+                $vals .= ' ? ' ;
+                $this->args[] = $value;
             }
         }
 
