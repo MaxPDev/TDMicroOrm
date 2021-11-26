@@ -1,0 +1,5 @@
+db_driver  =  mysql
+db_user    =  user
+db_password=  ****
+host       =  db
+dbname     =  hellokant

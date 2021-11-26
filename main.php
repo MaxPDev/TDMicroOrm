@@ -14,7 +14,8 @@ require __DIR__ . '/vendor/autoload.php';
 use hellokant\query\Query;
 
 // Connection with DB
-use hellokant\query\ConnectionFactory;
+use hellokant\connection\ConnectionFactory;
+// use hellokant\connection\ConnectionFactoryTry as ConnectionFactory;
 $conf = parse_ini_file('conf/conf.ini');
 ConnectionFactory::makeConnection($conf);
 
