@@ -2,6 +2,9 @@
 
 namespace hellokant\query;
 
+use hellokant\connection\ConnectionFactory;
+// use hellokant\connection\ConnectionFactoryTry as ConnectionFactory;
+
 class Query {
 
     private $sqltable;
@@ -43,7 +46,7 @@ class Query {
             $this->where .= ' and ';
         }
         $this->where .= ' ' . $col . ' ' . $op . ' ? ';
-        $this->args[]=$val;
+        $this->args[] = $val;
 
         return $this;
     }
@@ -64,7 +67,7 @@ class Query {
                     ->get()
                     */
     //public function get() : Array { // Array quand connextion à DB
-    public function get() : string {
+    public function get() : array {
         $this->sql = 'select ' . $this->fields . // later : ?.
                      ' from ' . $this->sqltable;
 
@@ -72,14 +75,18 @@ class Query {
             $this->sql .= ' where ' . $this->where;
         }
 
-        return $this->sql; //pour echo pour check
+        // return $this->sql; //pour echo pour check
 
+        $pdo = ConnectionFactory::getConnection();
 
         // idem avec order, groupBy, si on veut
 
-        // $stmt = $pdo->prepare($this->sql);
-        // $stmt->execute($this->args);
-        // return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $stmt = $pdo->prepare($this->sql);
+        var_dump($stmt);
+        var_dump($this->args);
+        $stmt->execute($this->args);
+        var_dump($stmt);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         
 
     }
@@ -107,7 +114,13 @@ class Query {
                     ' (' . $atts . ')' . ' values ' .
                     '(' . $vals . ');';
 
-        return $this->sql;
+        // return $this->sql;
+
+        $pdo = ConnectionFactory::getConnection();
+        $stmt = $pdo->prepare($this->sql);
+        $stmt->execute($this->args);
+
+        return $pdo->lastInsertId();
         
         // INSERT INTO client (prenom, nom, ville, age)
         // VALUES

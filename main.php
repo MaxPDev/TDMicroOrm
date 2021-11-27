@@ -28,16 +28,17 @@ $req = $q->get();
 
 var_dump($req);
 
-$id = Query::table('article')->insert(['nom'=>'grovelo', 'tarif'=>200]);
+// $id = Query::table('article')->insert(['nom'=>'grovelo', 'tarif'=>200, 'id_categ'=>1]);
+$id = Query::table('article')->insert(['nom'=>'Trombone', 'tarif'=>2000, 'descr'=>'Qualité exceptionnel, rénové, électrique', 'id_categ'=>1]);
 
 echo 'article inséré id : ' . $id .'\n';
 
-$qd = Query::table('article')->where('id', '=', $id) ;
-echo($qd->delete());
+// $qd = Query::table('article')->where('id', '=', $id) ;
+// echo($qd->delete());
 
-$q = Query::table('article')
-    ->select(['id', 'nom', 'descr', 'tarif'])
-    ->where('tarif', '<', 1000)
-    ->get();
+// $q = Query::table('article')
+//     ->select(['id', 'nom', 'descr', 'tarif'])
+//     ->where('tarif', '<', 1000)
+//     ->get();
 
-var_dump($q);
+// var_dump($q);
