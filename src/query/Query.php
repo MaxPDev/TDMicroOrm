@@ -8,7 +8,7 @@ use hellokant\connection\ConnectionFactory;
 class Query {
 
     private $sqltable;
-    private $fields = '*';
+    private $fields = '*'; // par défaut, select *
     private $where = null;
     private $args = [];
     private $sql = '';
@@ -138,6 +138,7 @@ class Query {
         $stmt = $pdo->prepare($this->sql);
         var_dump($stmt->debugDumpParams());
         $stmt->execute($this->args);
+        return $stmt->rowCOunt();
     }
 
     // DELETE FROM `table`

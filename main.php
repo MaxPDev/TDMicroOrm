@@ -19,6 +19,9 @@ use hellokant\connection\ConnectionFactory;
 $conf = parse_ini_file('conf/conf.ini');
 ConnectionFactory::makeConnection($conf);
 
+// use hellokant\model\Model;
+use hellokant\model\Article;
+
 //////////////////////////////:://///////
 
 // $q = Query::table('article');
@@ -35,6 +38,7 @@ ConnectionFactory::makeConnection($conf);
 
 // $qd = Query::table('article')->where('id', '=', $id) ;
 // echo($qd->delete());
+// echo PHP_EOL;
 
 // $q = Query::table('article')
 //     ->select(['id', 'nom', 'descr', 'tarif'])
@@ -42,3 +46,24 @@ ConnectionFactory::makeConnection($conf);
 //     ->get();
 
 // var_dump($q);
+
+$a = new Article();
+$a->id = 110; $a->nom = 'velo'; $a->tarif = 273;
+// $a->insert();
+echo $a->nom;
+
+
+// $a->delete();
+
+// $list = Article::all();
+// foreach ($liste as $article) {
+//     echo $article->nom;
+// }
+
+
+
+
+
+
+
+
