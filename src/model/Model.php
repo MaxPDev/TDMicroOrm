@@ -74,7 +74,7 @@ class Model {
             }
         }
        
-       $find = $find->get();
+       $find = $find->get()[0];
 
        $return[] = new static($find);
        return $return;
@@ -97,10 +97,23 @@ class Model {
             }
         }
        
-       $find = $find->get();
+       $find = $find->get()[0];
+       echo("here");
+       var_dump($find);
 
        $return[] = new static($find);
        return $return[0];
+    }
+
+    public function belongs_to($f_model_name, $fk_name) { 
+        $f_table = Query::table($f_model_name::$table )
+                        ->where($f_model_name::$idColumn, '=', $this->_v[$fk_name]) 
+                        ->get()[0];
+        return(new $f_model_name($f_table));
+
+        // return $this;
+        // return new self($f_table);   // self : cette classe, static, classe d'appel (classe concrète de celle-ci dans ce cas)
+
     }
 
     // public static function findOne(int $id): Model {

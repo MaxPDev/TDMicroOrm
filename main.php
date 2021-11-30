@@ -21,6 +21,7 @@ ConnectionFactory::makeConnection($conf);
 
 // use hellokant\model\Model;
 use hellokant\model\Article;
+use hellokant\model\Categorie;
 
 //////////////////////////////:://///////
 
@@ -85,11 +86,12 @@ use hellokant\model\Article;
 $firstTest1 = Article::first(64);
 print_r($firstTest1);
 
-// $firstTest2 = Article::first(['tarif', '<=', 100 ]); //vérifier demander si example ok
-$firstTest2 = Article::first([['tarif', '<=', 100 ]]);
-print_r($firstTest2);
+// // $firstTest2 = Article::first(['tarif', '<=', 100 ]); //vérifier demander si example ok
+// $firstTest2 = Article::first([['tarif', '<=', 100 ]]);
+// print_r($firstTest2);
 
-
+$categorie1 = $firstTest1->categorie();
+print_r($categorie1);
 
 
 
