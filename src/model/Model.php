@@ -44,8 +44,6 @@ class Model {
         
         // Stock l'id nouvellement créer dans le tableau d'attributs
         $this->_v[static::$idColumn] = $lastInsertId;
-
-        var_dump($this->_v);
         return $lastInsertId;
     }
 
@@ -98,22 +96,32 @@ class Model {
         }
        
        $find = $find->get()[0];
-       echo("here");
-       var_dump($find);
 
        $return[] = new static($find);
        return $return[0];
     }
 
     public function belongs_to($f_model_name, $fk_name) { 
-        $f_table = Query::table($f_model_name::$table )
+        $f_table = Query::table($f_model_name::$table)
                         ->where($f_model_name::$idColumn, '=', $this->_v[$fk_name]) 
-                        ->get()[0];
+                        ->get()[0];  // !!!!!!!!! Résoudre ce 0;
         return(new $f_model_name($f_table));
 
-        // return $this;
-        // return new self($f_table);   // self : cette classe, static, classe d'appel (classe concrète de celle-ci dans ce cas)
+    }
 
+    public function has_many($f_model_name, $id_name) {
+        $f_tables = Query::table($f_model_name::$table)
+                         ->where($id_name, '=', $this->_v[static::$idColumn])
+                         ->get();
+        // var_dump($f_tables);
+        $return = [];
+
+        // intancié chaque objet pdo reçu avec la class Model associé
+        foreach ($f_tables as $table) {
+            $return[] = new $f_model_name($table);
+        }
+
+        return $return;
     }
 
     // public static function findOne(int $id): Model {

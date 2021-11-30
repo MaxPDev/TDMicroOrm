@@ -84,7 +84,7 @@ use hellokant\model\Categorie;
 // print_r($findTest2);
 
 $firstTest1 = Article::first(64);
-print_r($firstTest1);
+// print_r($firstTest1);
 
 // // $firstTest2 = Article::first(['tarif', '<=', 100 ]); //vérifier demander si example ok
 // $firstTest2 = Article::first([['tarif', '<=', 100 ]]);
@@ -93,5 +93,11 @@ print_r($firstTest1);
 $categorie1 = $firstTest1->categorie();
 print_r($categorie1);
 
+$categorie2 = Categorie::first(1);
 
+$list_article1 = $categorie1->articles();
+$list_article2 = $categorie2->articles();
+
+print_r($list_article1);
+// print_r($list_article2);
 
