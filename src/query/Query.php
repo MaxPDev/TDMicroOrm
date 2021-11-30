@@ -36,11 +36,6 @@ class Query {
 
     // mixed only in php8
     public function where(string $col, string $op, $val) : Query {
-        // $this->args[] = $col;
-        // $this->args[] = $op;
-        // $this->args[] = $val;
-
-        // $this->args = implode(',', $this->args);
 
         if (!is_null($this->where)) {
             $this->where .= ' and ';
@@ -114,20 +109,22 @@ class Query {
                     ' (' . $atts . ')' . ' values ' .
                     '(' . $vals . ');';
 
-        // return $this->sql;
-
         $pdo = ConnectionFactory::getConnection();
         $stmt = $pdo->prepare($this->sql);
+        var_dump($stmt->debugDumpParams());
         $stmt->execute($this->args);
 
         return $pdo->lastInsertId();
+
+
+        // // Autre possiblité. Plus optimisée ?
+
+        // $pdo = ConnectionFactory::connection();
+        // $this->sql = "INSERT INTO ".$this->sqltable." (".implode(",", array_keys($fields)).") VALUES (".str_repeat("?,", (count($fields)-1))."?)";
+        // $stmt = $pdo->prepare($this->sql);
+        // $stmt->execute(array_values($fields));
+        // return $pdo->lastInsertId();
         
-        // INSERT INTO client (prenom, nom, ville, age)
-        // VALUES
-        // ('Rébecca', 'Armand', 'Saint-Didier-des-Bois', 24),
-        // ('Aimée', 'Hebert', 'Marigny-le-Châtel', 36),
-        // ('Marielle', 'Ribeiro', 'Maillères', 27),
-        // ('Hilaire', 'Savary', 'Conie-Molitard', 58);
     }
 
     public function delete() {
@@ -135,7 +132,12 @@ class Query {
         $this->sql = 'delete from ' . $this->sqltable .
                     ' where ' . $this->where;
 
-        return $this->sql;
+        // return $this->sql;
+        
+        $pdo = ConnectionFactory::getConnection();
+        $stmt = $pdo->prepare($this->sql);
+        var_dump($stmt->debugDumpParams());
+        $stmt->execute($this->args);
     }
 
     // DELETE FROM `table`

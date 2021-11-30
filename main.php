@@ -21,17 +21,17 @@ ConnectionFactory::makeConnection($conf);
 
 //////////////////////////////:://///////
 
-$q = Query::table('article');
-$q = $q->select(['id', 'nom']);
-$q = $q->where('tarif','<',1000);
-$req = $q->get();
+// $q = Query::table('article');
+// $q = $q->select(['id', 'nom']);
+// $q = $q->where('tarif','<',1000);
+// $req = $q->get();
 
-var_dump($req);
+// var_dump($req);
 
 // $id = Query::table('article')->insert(['nom'=>'grovelo', 'tarif'=>200, 'id_categ'=>1]);
-$id = Query::table('article')->insert(['nom'=>'Trombone', 'tarif'=>2000, 'descr'=>'Qualité exceptionnel, rénové, électrique', 'id_categ'=>1]);
+// $id = Query::table('article')->insert(['nom'=>'Trombone4', 'tarif'=>3500, 'descr'=>'Qualité exceptionnel, amélioré, à hydrogène', 'id_categ'=>1]);
 
-echo 'article inséré id : ' . $id .'\n';
+// echo 'article inséré id : ' . $id ."\n";
 
 // $qd = Query::table('article')->where('id', '=', $id) ;
 // echo($qd->delete());
