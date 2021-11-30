@@ -18,8 +18,11 @@ class Model {
     }
 
     public function __get(string $name) {
-        if (array_key_exists($name, $this->_v))
+        if (array_key_exists($name, $this->_v)) {
             return $this->_v[$name];
+        } else {
+            return $this->$name();
+        }
     }
 
     public function __set(string $name, $val) : void {

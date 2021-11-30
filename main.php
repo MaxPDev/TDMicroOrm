@@ -101,3 +101,12 @@ $list_article2 = $categorie2->articles();
 print_r($list_article1);
 // print_r($list_article2);
 
+$c = Categorie::first(1);
+$list_art = $c->articles;
+
+print_r($list_art);
+
+$art65 = Article::first(65);
+$cat_art65 = $art65->categorie;
+
+print_r($cat_art65);
