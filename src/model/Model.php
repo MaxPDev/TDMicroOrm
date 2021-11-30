@@ -11,7 +11,7 @@ class Model {
     protected static $table;
     protected static $idColumn = 'id';
     
-    protected $_v = [];
+    public $_v = [];
 
     public function __construct(array $t = null) {
         if (!is_null($t)) $this->_v = $t;
@@ -34,7 +34,19 @@ class Model {
     }
 
     public function insert() {
+        var_dump(static::$table);
+        var_dump(static::$idColumn);
+        var_dump($this->_v);
+
+        // Insert les données, récupére la valeur de l'id auto incrémenté
+        $lastInsertId = Query::table(static::$table)
+                        ->insert($this->_v);
         
+        // Stock l'id nouvellement créer dans le tableau d'attributs
+        $this->_v[static::$idColumn] = $lastInsertId;
+
+        var_dump($this->_v);
+        return $lastInsertId;
     }
 
     public static function all() : array {

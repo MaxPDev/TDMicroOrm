@@ -48,12 +48,20 @@ use hellokant\model\Article;
 // var_dump($q);
 
 $a = new Article();
-$a->id = 110; $a->nom = 'velo'; $a->tarif = 273;
-// $a->insert();
-echo $a->nom;
+$a->nom = 'velo'; 
+$a->tarif = 273;
+$a->id_categ = 1;
+$a->insert();
+
+$a2 = new Article();
+$a2->nom = 'tableau'; 
+$a2->tarif = 78;
+$a2->descr = "Tableau d'école";
+$a2->id_categ = 1;
+$a2->insert();
 
 
-// $a->delete();
+$a->delete();
 
 // $list = Article::all();
 // foreach ($liste as $article) {
