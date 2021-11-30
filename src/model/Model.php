@@ -50,12 +50,57 @@ class Model {
     }
 
     public static function all() : array {
-        $all = QUery::table(static::$table)->get();
+        $all = Query::table(static::$table)->get();
         $return = [];
         foreach($all as $m) {
             $return[] = new static($m);
         }
         return $return;
+    }
+
+    public static function find($wheres, array $cols = ['*']) : array {
+        $return = [];
+    
+        $find = Query::table(static::$table)
+                    ->select($cols);
+
+        if (gettype($wheres) == "integer" || gettype($wheres) == "string") {
+            $find = $find->where(static::$idColumn, '=', $wheres);
+        }
+
+        if (gettype($wheres) == "array") {
+            foreach ($wheres as $where) {
+                $find = $find->where($where[0], $where[1], $where[2]);
+            }
+        }
+       
+       $find = $find->get();
+
+       $return[] = new static($find);
+       return $return;
+    }
+
+
+    public static function first($wheres, array $cols = ['*']) : Model {
+        $return = [];
+    
+        $find = Query::table(static::$table)
+                    ->select($cols);
+
+        if (gettype($wheres) == "integer" || gettype($wheres) == "string") {
+            $find = $find->where(static::$idColumn, '=', $wheres);
+        }
+
+        if (gettype($wheres) == "array") {
+            foreach ($wheres as $where) {
+                $find = $find->where($where[0], $where[1], $where[2]);
+            }
+        }
+       
+       $find = $find->get();
+
+       $return[] = new static($find);
+       return $return[0];
     }
 
     // public static function findOne(int $id): Model {

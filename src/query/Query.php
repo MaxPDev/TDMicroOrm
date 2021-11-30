@@ -77,10 +77,10 @@ class Query {
         // idem avec order, groupBy, si on veut
 
         $stmt = $pdo->prepare($this->sql);
-        var_dump($stmt);
-        var_dump($this->args);
+        // var_dump($stmt);
+        // var_dump($this->args);
         $stmt->execute($this->args);
-        var_dump($stmt);
+        // var_dump($stmt);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         
 
@@ -111,7 +111,7 @@ class Query {
 
         $pdo = ConnectionFactory::getConnection();
         $stmt = $pdo->prepare($this->sql);
-        var_dump($stmt->debugDumpParams());
+        // var_dump($stmt->debugDumpParams());
         $stmt->execute($this->args);
 
         return $pdo->lastInsertId();
@@ -136,7 +136,7 @@ class Query {
         
         $pdo = ConnectionFactory::getConnection();
         $stmt = $pdo->prepare($this->sql);
-        var_dump($stmt->debugDumpParams());
+        // var_dump($stmt->debugDumpParams());
         $stmt->execute($this->args);
         return $stmt->rowCOunt();
     }

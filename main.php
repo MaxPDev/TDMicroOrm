@@ -47,29 +47,47 @@ use hellokant\model\Article;
 
 // var_dump($q);
 
-$a = new Article();
-$a->nom = 'velo'; 
-$a->tarif = 273;
-$a->id_categ = 1;
-$a->insert();
+// $a = new Article();
+// $a->nom = 'velo'; 
+// $a->tarif = 273;
+// $a->id_categ = 1;
+// $a->insert();
 
-$a2 = new Article();
-$a2->nom = 'tableau'; 
-$a2->tarif = 78;
-$a2->descr = "Tableau d'école";
-$a2->id_categ = 1;
-$a2->insert();
+// $a2 = new Article();
+// $a2->nom = 'tableau'; 
+// $a2->tarif = 78;
+// $a2->descr = "Tableau d'école";
+// $a2->id_categ = 1;
+// $a2->insert();
+
+// $a3 = new Article();
+// $a3->nom = 'velo'; 
+// $a3->tarif = 2000;
+// $a3->descr = "Tableau d'école";
+// $a3->id_categ = 1;
+// $a3->insert();
 
 
-$a->delete();
+// $a->delete();
 
-// $list = Article::all();
+// $liste = Article::all();
 // foreach ($liste as $article) {
-//     echo $article->nom;
+//     echo $article->nom . PHP_EOL;
 // }
 
+// $findTest1 = Article::find(64);
+// print_r($findTest1);
 
 
+// $findTest2 = Article::find([['nom','like','velo'], ['tarif','<=', 100]], ['nom','tarif']);
+// print_r($findTest2);
+
+$firstTest1 = Article::first(64);
+print_r($firstTest1);
+
+// $firstTest2 = Article::first(['tarif', '<=', 100 ]); //vérifier demander si example ok
+$firstTest2 = Article::first([['tarif', '<=', 100 ]]);
+print_r($firstTest2);
 
 
 
