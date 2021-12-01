@@ -17,12 +17,12 @@ class Model {
         if (!is_null($t)) $this->_v = $t;
     }
 
-    public function __get(string $name) {
-        if (array_key_exists($name, $this->_v)) {
-            return $this->_v[$name];
-        } else {
-            return $this->$name();
+    public function __get(string $attr_name) {
+        if (array_key_exists($attr_name, $this->_v)) {
+            return $this->_v[$attr_name];
         }
+        if (method_exists($this, $attr_name))
+            return $this->attr_name;
     }
 
     public function __set(string $name, $val) : void {
@@ -30,23 +30,21 @@ class Model {
     }
 
     public function delete() {
-        //
+        if (is_null($this->_v[static::$idColumn])) {
+            throw new ModelException("Non PK, can't delete");
+        }
         return Query::table(static::$table)
                     ->where(static::$idColumn, '=', $this->_v[static::$idColumn])
                     ->delete();
     }
 
     public function insert() {
-        var_dump(static::$table);
-        var_dump(static::$idColumn);
-        var_dump($this->_v);
-
         // Insert les données, récupére la valeur de l'id auto incrémenté
         $lastInsertId = Query::table(static::$table)
                         ->insert($this->_v);
         
         // Stock l'id nouvellement créer dans le tableau d'attributs
-        $this->_v[static::$idColumn] = $lastInsertId;
+        $this->_v[static::$idColumn] = (int)$lastInsertId;
         return $lastInsertId;
     }
 
@@ -57,6 +55,15 @@ class Model {
             $return[] = new static($m);
         }
         return $return;
+    }
+
+    public static function one(int $id) {
+        
+        $row = Query::table(static::$table)
+                    ->where(static::$idColumn, '=', $id)
+                    ->one();
+
+        return new static($row);
     }
 
     public static function find($wheres, array $cols = ['*']) : array {
@@ -75,9 +82,9 @@ class Model {
             }
         }
        
-       $find = $find->get()[0];
+       $find = $find->get();
 
-       $return[] = new static($find);
+       $return[] = new static($find[0]);
        return $return;
     }
 

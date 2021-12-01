@@ -46,6 +46,12 @@ use hellokant\model\Categorie;
 //     ->where('tarif', '<', 1000)
 //     ->get();
 
+// $q = Query::table('article')
+//             ->select(['id', 'nom', 'descr', 'tarif'])
+//             ->one();
+
+// var_dump($q);
+
 // var_dump($q);
 
 // $a = new Article();
@@ -83,30 +89,33 @@ use hellokant\model\Categorie;
 // $findTest2 = Article::find([['nom','like','velo'], ['tarif','<=', 100]], ['nom','tarif']);
 // print_r($findTest2);
 
-$firstTest1 = Article::first(64);
-// print_r($firstTest1);
+$firstTest1 = Article::one(64);
+print_r($firstTest1);
 
 // // $firstTest2 = Article::first(['tarif', '<=', 100 ]); //vérifier demander si example ok
 // $firstTest2 = Article::first([['tarif', '<=', 100 ]]);
 // print_r($firstTest2);
 
-$categorie1 = $firstTest1->categorie();
-print_r($categorie1);
+// $categorie1 = $firstTest1->categorie();
+// print_r($categorie1);
 
-$categorie2 = Categorie::first(1);
+// $categorie2 = Categorie::first(1);
 
-$list_article1 = $categorie1->articles();
-$list_article2 = $categorie2->articles();
+// $list_article1 = $categorie1->articles();
+// $list_article2 = $categorie2->articles();
 
-print_r($list_article1);
-// print_r($list_article2);
+// print_r($list_article1);
+// // print_r($list_article2);
 
-$c = Categorie::first(1);
-$list_art = $c->articles;
+// $c = Categorie::first(1);
+// $list_art = $c->articles;
 
-print_r($list_art);
+// print_r($list_art);
 
-$art65 = Article::first(65);
-$cat_art65 = $art65->categorie;
+// $art65 = Article::find("*");
+// $cat_art65 = $art65->categorie;
 
-print_r($cat_art65);
+// print_r($art65);
+
+// $z = new Article();
+// $z->delete();

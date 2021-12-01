@@ -83,10 +83,24 @@ class Query {
         // var_dump($stmt);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         
-
     }
 
-    // A REFAIORE POUR AVEC LES ATTRIB DE CLASS POUR CHAINER
+    public function one() {
+        $this->sql = 'select ' . $this->fields . 
+                ' from ' . $this->sqltable;
+
+        if (!is_null($this->where)) {
+            $this->sql .= ' where ' . $this->where;
+        }
+
+        $pdo = ConnectionFactory::getConnection();
+
+        $stmt = $pdo->prepare($this->sql);
+        $stmt->execute($this->args);
+        // var_dump($stmt);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
     public function insert(array $datas) : string {
 
         $atts = "";
