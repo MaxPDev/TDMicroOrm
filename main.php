@@ -120,7 +120,7 @@ print_r($firstTest1);
 // $z = new Article();
 // $z->delete();
 
-$t = Query::table('article')->where('id','>',100)->where('tarif','<',100)->get();
+$t = Article::one(106);
 var_dump($t);
 foreach ($t as $tu) {
     echo $tu['id'] . PHP_EOL;
