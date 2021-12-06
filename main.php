@@ -89,8 +89,8 @@ use hellokant\model\Categorie;
 // $findTest2 = Article::find([['nom','like','velo'], ['tarif','<=', 100]], ['nom','tarif']);
 // print_r($findTest2);
 
-$firstTest1 = Article::one(64);
-print_r($firstTest1);
+// $firstTest1 = Article::one(64);
+// print_r($firstTest1);
 
 // // $firstTest2 = Article::first(['tarif', '<=', 100 ]); //vérifier demander si example ok
 // $firstTest2 = Article::first([['tarif', '<=', 100 ]]);
@@ -120,8 +120,35 @@ print_r($firstTest1);
 // $z = new Article();
 // $z->delete();
 
-$t = Article::one(106);
-var_dump($t);
-foreach ($t as $tu) {
-    echo $tu['id'] . PHP_EOL;
-}
+// $t = Article::one(106);
+// var_dump($t);
+// foreach ($t as $tu) {
+//     echo $tu['id'] . PHP_EOL;
+// }
+
+
+/**
+ * Test des finders
+ * (exemple correction vidéo)
+ */
+
+//  $articles = Article::all();
+//  var_dump($articles);
+
+// $a = new Article();
+// $a->deletse;
+
+ $articles = Article::find();
+ var_dump($articles);
+
+//  $articles = Article::find(106);
+//  var_dump($articles);
+
+//  $articles = Article::find(['nom','tarif'], 64);
+//  var_dump($articles);
+
+//  $articles = Article::find(['nom','tarif'], ['id','=', 64]);
+//  var_dump($articles);
+
+//  $articles = Article::find(['nom','tarif'], ['nom','like','$velo$']);
+//  var_dump($articles);

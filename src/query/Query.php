@@ -191,7 +191,7 @@ class Query {
      * Récupère la connexion pdo
      * Exécute la requête de suppression
      * Récupère de la base de donnée le nombre de lignes supprimées,
-     * et le retourne 
+     * et le retourne (même si pas utilisé dans Model pour ce td)
      */
     public function delete() {
         // DELETE FROM `table`
