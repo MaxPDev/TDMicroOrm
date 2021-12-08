@@ -138,7 +138,7 @@ use hellokant\model\Categorie;
 // $a = new Article();
 // $a->deletse;
 
- $articles = Article::find();
+ $articles = Article::find(2);
  var_dump($articles);
 
 //  $articles = Article::find(106);

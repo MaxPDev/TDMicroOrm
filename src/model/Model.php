@@ -10,7 +10,7 @@ abstract class Model {
 
     protected static $table;
     protected static $idColumn = 'id';
-    
+
     public $_v = [];
 
     /**
@@ -75,7 +75,7 @@ abstract class Model {
         // Insert les données, récupére la valeur de l'id auto incrémenté
         $lastInsertId = Query::table(static::$table)
                         ->insert($this->_v);
-        
+
         // Stock l'id nouvellement créer dans le tableau d'attributs
         $this->_v[static::$idColumn] = (int)$lastInsertId;
         return $lastInsertId;
@@ -101,7 +101,7 @@ abstract class Model {
      * Instancie depuis la classe concrète hérité de cette class et la retourne
      */
     public static function one(int $id) {
-        
+
         $row = Query::table(static::$table)
                     ->where(static::$idColumn, '=', $id)
                     ->one();
@@ -113,28 +113,32 @@ abstract class Model {
      * find() (corrigé)
      * Retourne les lignes sous forme d'un tableau d'objet instancié
      * de la class concrète de cette classe.
+     *
+     *   
      * 
-     * Si 1 paramètre : Si c'est un entier, c'est un id,
-     *                  Si c'est un tableau, ce sont des conditions where
-     * Si 2 paramètres : 1er param ; tableau de colonne
-     *                   2em param  : entier ou tableau de where
      */
-    public static function find($wheres, array $cols = ['*']) : array {
+
+
+    // syntax find(id)  find(id,[cols]) find([[where1]], null), find([[where1, where2, where3]], [cols]))
+
+    public static function find($wheres=null, array $cols = ['*']) : array {
         $return = [];
     
+        if(is_null($wheres)) return static::all();
+
         $find = Query::table(static::$table)
                     ->select($cols);
 
-        if (gettype($wheres) == "integer" || gettype($wheres) == "string") {
+        if (is_int($wheres)) {
             $find = $find->where(static::$idColumn, '=', $wheres);
         }
 
-        if (gettype($wheres) == "array") {
+        if (is_array($wheres)) {
             foreach ($wheres as $where) {
-                $find = $find->where($where[0], $where[1], $where[2]);
+                $find = $find->where(...$where);
             }
         }
-       
+    
        $find = $find->get();
 
        $return[] = new static($find[0]);
@@ -142,9 +146,48 @@ abstract class Model {
     }
 
 
+
+    // public static function findTest(...$args) : array {
+    //     $return = [];
+
+    //     $find = Query::table(static::$table);
+
+    //     // déployer un tableau en argument dans une fonction :: function(...tableau)
+
+    //     $nbArgs = count($args);
+
+    //     // S'il n'y pas d'argument, c'est équivalent à demander toutes les colonnes de toutes les lignes, donc all()
+    //     if($nbArgs === 0) return static::all();
+
+    //     // S'il n'y a qu'un argument,
+    //     if ($nbArgs === 1) {
+    //         $find = $find->select(['*']); // A supprimer puisque par défaut quand Query ?
+    //     }
+
+
+    //     // On test si le premier paramètre est un int, donc un id. Sinon, quoiqu'il en soit, ce sont des condiction where
+    //     if (is_int($args[0])) {
+    //         $find = $find->where(static::$idColumn, '=', $args[0]);
+    //     }
+
+
+
+    //     if (gettype($wheres) == "array") {
+    //         foreach ($wheres as $where) {
+    //             $find = $find->where($where[0], $where[1], $where[2]);
+    //         }
+    //     }
+
+    //    $find = $find->get();
+
+    //    $return[] = new static($find[0]);
+    //    return $return;
+    // }
+
+
     public static function first($wheres, array $cols = ['*']) : Model {
         $return = [];
-    
+
         $find = Query::table(static::$table)
                     ->select($cols);
 
@@ -157,16 +200,16 @@ abstract class Model {
                 $find = $find->where($where[0], $where[1], $where[2]);
             }
         }
-       
+
        $find = $find->get()[0];
 
        $return[] = new static($find);
        return $return[0];
     }
 
-    public function belongs_to($f_model_name, $fk_name) { 
+    public function belongs_to($f_model_name, $fk_name) {
         $f_table = Query::table($f_model_name::$table)
-                        ->where($f_model_name::$idColumn, '=', $this->_v[$fk_name]) 
+                        ->where($f_model_name::$idColumn, '=', $this->_v[$fk_name])
                         ->get()[0];  // !!!!!!!!! Résoudre ce 0;
         return(new $f_model_name($f_table));
 
