@@ -151,65 +151,12 @@ abstract class Model {
     }
 
 
-
-    // public static function findTest(...$args) : array {
-    //     $return = [];
-
-    //     $find = Query::table(static::$table);
-
-    //     // déployer un tableau en argument dans une fonction :: function(...tableau)
-
-    //     $nbArgs = count($args);
-
-    //     // S'il n'y pas d'argument, c'est équivalent à demander toutes les colonnes de toutes les lignes, donc all()
-    //     if($nbArgs === 0) return static::all();
-
-    //     // S'il n'y a qu'un argument,
-    //     if ($nbArgs === 1) {
-    //         $find = $find->select(['*']); // A supprimer puisque par défaut quand Query ?
-    //     }
-
-
-    //     // On test si le premier paramètre est un int, donc un id. Sinon, quoiqu'il en soit, ce sont des condiction where
-    //     if (is_int($args[0])) {
-    //         $find = $find->where(static::$idColumn, '=', $args[0]);
-    //     }
-
-
-
-    //     if (gettype($wheres) == "array") {
-    //         foreach ($wheres as $where) {
-    //             $find = $find->where($where[0], $where[1], $where[2]);
-    //         }
-    //     }
-
-    //    $find = $find->get();
-
-    //    $return[] = new static($find[0]);
-    //    return $return;
-    // }
-
-
+    /**
+     * Fonctionne comme find(), mais retourne le 1er element du tableau
+     */
     public static function first($wheres, array $cols = ['*']) : Model {
-        $return = [];
-
-        $find = Query::table(static::$table)
-                    ->select($cols);
-
-        if (gettype($wheres) == "integer" || gettype($wheres) == "string") {
-            $find = $find->where(static::$idColumn, '=', $wheres);
-        }
-
-        if (gettype($wheres) == "array") {
-            foreach ($wheres as $where) {
-                $find = $find->where($where[0], $where[1], $where[2]);
-            }
-        }
-
-       $find = $find->get()[0];
-
-       $return[] = new static($find);
-       return $return[0];
+        $find = static::find($wheres, $cols);
+       return $find[0];
     }
 
     public function belongs_to($f_model_name, $fk_name) {
