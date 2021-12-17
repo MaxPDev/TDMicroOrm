@@ -138,8 +138,8 @@ use hellokant\model\Categorie;
 // $a = new Article();
 // $a->deletse;
 
- $articles = Article::find(2);
- var_dump($articles);
+$articles = Article::find(106);
+print_r($articles);
 
 //  $articles = Article::find(106);
 //  var_dump($articles);

@@ -2,6 +2,10 @@
 
 namespace hellokant\model;
 
+/**
+ * Class Article
+ */
+
 class Article extends Model {
 
     protected static $table = 'article';

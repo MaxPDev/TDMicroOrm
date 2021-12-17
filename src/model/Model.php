@@ -26,7 +26,7 @@ abstract class Model {
      * Vérifie l'existence d'un attribut parmis les clé du tableau $_v
      * et le retourne si c'est le cas.
      * Après le parcours des clés, vérifie si une méthode de la classe correspond
-     * au paramètre de la fonction et l'éxécute, pour permette un sucre synthaxique à l'utilisation
+     * au paramètre de la fonction et l'éxécute, pour permette une simplification syntaxique à l'utilisation
      */
     public function __get(string $attr_name) {
         if (array_key_exists($attr_name, $this->_v)) {
@@ -110,12 +110,15 @@ abstract class Model {
     }
 
     /**
-     * find() (corrigé)
      * Retourne les lignes sous forme d'un tableau d'objet instancié
-     * de la class concrète de cette classe.
-     *
-     *   
+     * de la class concrète appelante.
+     * Peut prendre un ou deux paramètres
      * 
+     * Si le premier paramètre est un entier, il sera traité comme un id.
+     * Si c'est un tableau, il est condidérer comme un tableau de where
+     *   
+     * Le deuxième argument correspond aux colonnes voulu.
+     * S'il n'est pas précisé, il est rempli par '*', c'est-à-dire toutes les colonnes.
      */
 
 
@@ -140,8 +143,10 @@ abstract class Model {
         }
     
        $find = $find->get();
+       foreach ($find as $row) {
+           $return[] = new static($row);
+       }
 
-       $return[] = new static($find[0]);
        return $return;
     }
 
