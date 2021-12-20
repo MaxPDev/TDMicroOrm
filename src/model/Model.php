@@ -33,7 +33,7 @@ abstract class Model {
             return $this->_v[$attr_name];
         }
         if (method_exists($this, $attr_name))
-            return $this->attr_name;
+            return $this->$attr_name();
 
         throw new ModelException(get_called_class() . " Attribut or Method doesn't exist");
     }
@@ -117,7 +117,7 @@ abstract class Model {
      * Si le premier paramètre est un entier, il sera traité comme un id.
      * Si c'est un tableau, il est condidérer comme un tableau de where
      *   
-     * Le deuxième argument correspond aux colonnes voulu.
+     * Le deuxième argument correspond aux colonnes voulues.
      * S'il n'est pas précisé, il est rempli par '*', c'est-à-dire toutes les colonnes.
      */
 
@@ -159,35 +159,45 @@ abstract class Model {
        return $find[0];
     }
 
+    /**
+     * Retourne une instance d'un modèle associé à l'objet courant.
+     * Prends en paramètre le nom du model associé,
+     * et le nom de l'attribut, clé de l'id de la table à associer.
+     * contenu dans le tableau d'attribut $_v de l'objet courant,
+     */
     public function belongs_to($f_model_name, $fk_name) {
         $f_table = Query::table($f_model_name::$table)
                         ->where($f_model_name::$idColumn, '=', $this->_v[$fk_name])
-                        ->get()[0];  // !!!!!!!!! Résoudre ce 0;
+                        ->get()[0];  
         return(new $f_model_name($f_table));
 
+        // // ou :
+        // return $f_model_name::first($this->$fk_name);
+
     }
 
+    /**
+     * Retourne un tableau d'objets instances du modèle correspondant à la table liée.
+     * Prends en paramètre le nom du modèle lié, et le nom de la clé étrangère,
+     * afin de comparer sa valeur avec celle de l'id du modèl courant.
+     */
     public function has_many($f_model_name, $id_name) {
-        $f_tables = Query::table($f_model_name::$table)
-                         ->where($id_name, '=', $this->_v[static::$idColumn])
-                         ->get();
-        // var_dump($f_tables);
-        $return = [];
 
-        // intancié chaque objet pdo reçu avec la class Model associé
-        foreach ($f_tables as $table) {
-            $return[] = new $f_model_name($table);
-        }
+        return $f_model_name::find([[$id_name, '=', $this->_v[static::$idColumn]]]);
 
-        return $return;
+        // // ou :
+        // $f_tables = Query::table($f_model_name::$table)
+        //                  ->where($id_name, '=', $this->_v[static::$idColumn])
+        //                  ->get();
+        // // var_dump($f_tables);
+        // $return = [];
+
+        // // intancié chaque objet pdo reçu avec la class Model associé
+        // foreach ($f_tables as $table) {
+        //     $return[] = new $f_model_name($table);
+        // }
+
+        // return $return;
     }
-
-    // public static function findOne(int $id): Model {
-    //     $row = Query::table(static::$table)
-    //                 ->where(static::$idColumn, '=', $id)
-    //                 ->one();
-
-    //     return new static($row);
-    // }
 
 }

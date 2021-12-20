@@ -138,9 +138,13 @@ use hellokant\model\Categorie;
 // $a = new Article();
 // $a->deletse;
 
-$articles = Article::first([['nom','=','velo']], ['descr']);
+$articles = Article::first([['nom','=','velo']]);
 print_r($articles);
+print_r($articles->categorie);
 
+$cat = Categorie::first(1);
+print_r($cat);
+print_r($cat->articles);
 //  $articles = Article::find(106);
 //  var_dump($articles);
 
