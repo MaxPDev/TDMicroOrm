@@ -15,7 +15,8 @@ use hellokant\query\Query;
 
 // Connection with DB
 use hellokant\connection\ConnectionFactory;
-// use hellokant\connection\ConnectionFactoryTry as ConnectionFactory;
+
+// // 2. Gestion de la connexion à la base
 $conf = parse_ini_file('conf/conf.ini');
 ConnectionFactory::makeConnection($conf);
 
@@ -25,34 +26,6 @@ use hellokant\model\Categorie;
 
 //////////////////////////////:://///////
 
-// $q = Query::table('article');
-// $q = $q->select(['id', 'nom']);
-// $q = $q->where('tarif','<',1000);
-// $req = $q->get();
-
-// var_dump($req);
-
-// $id = Query::table('article')->insert(['nom'=>'grovelo', 'tarif'=>200, 'id_categ'=>1]);
-// $id = Query::table('article')->insert(['nom'=>'Trombone4', 'tarif'=>3500, 'descr'=>'Qualité exceptionnel, amélioré, à hydrogène', 'id_categ'=>1]);
-
-// echo 'article inséré id : ' . $id ."\n";
-
-// $qd = Query::table('article')->where('id', '=', $id) ;
-// echo($qd->delete());
-// echo PHP_EOL;
-
-// $q = Query::table('article')
-//     ->select(['id', 'nom', 'descr', 'tarif'])
-//     ->where('tarif', '<', 1000)
-//     ->get();
-
-// $q = Query::table('article')
-//             ->select(['id', 'nom', 'descr', 'tarif'])
-//             ->one();
-
-// var_dump($q);
-
-// var_dump($q);
 
 // $a = new Article();
 // $a->nom = 'velo'; 
@@ -138,13 +111,13 @@ use hellokant\model\Categorie;
 // $a = new Article();
 // $a->deletse;
 
-$articles = Article::first([['nom','=','velo']]);
-print_r($articles);
-print_r($articles->categorie);
+// $articles = Article::first([['nom','=','velo']]);
+// print_r($articles);
+// print_r($articles->categorie);
 
-$cat = Categorie::first(1);
-print_r($cat);
-print_r($cat->articles);
+// $cat = Categorie::first(1);
+// print_r($cat);
+// print_r($cat->articles);
 //  $articles = Article::find(106);
 //  var_dump($articles);
 
@@ -156,3 +129,79 @@ print_r($cat->articles);
 
 //  $articles = Article::find(['nom','tarif'], ['nom','like','$velo$']);
 //  var_dump($articles);
+
+////////////
+
+// // 1. La classe Query - 3. Finaliser la classe Query
+// 1 - 5 : Créer la classe Query, 
+// les méthodes table(...), select(...), where(...), get(...)
+$q = Query::table('article');
+$q = $q->select(['id', 'nom']);
+$q = $q->where('tarif','<', 200);
+$req = $q->get();
+
+print_r($req);
+
+// 7. Methode insert()
+$id = Query::table('article')->insert(['nom'=>'Trombone', 'tarif'=>3500, 'descr'=>'Qualité exceptionnel, amélioré, à hydrogène', 'id_categ'=>1]);
+echo 'article inséré id : ' . $id . PHP_EOL;
+
+// 6. Méthode delete()
+$qd = Query::table('article')->where('id', '=', $id);
+echo($qd->delete());
+echo PHP_EOL;
+
+// 8. Chainage des méthodes where()
+$q2 = Query::table('article')
+    ->select(['id', 'nom', 'descr', 'tarif'])
+    ->where('tarif', '<', 200)
+    ->where('id','>=', 65)
+    ->get();
+    
+echo "Chainage des where()" . PHP_EOL;
+print_r($q2);
+
+// Methode one()
+$q3 = Query::table('article')
+            ->select(['id', 'nom', 'descr', 'tarif'])
+            ->one();
+
+echo "Méthode one()" . PHP_EOL;
+print_r($q3);
+
+
+// 1.
+// 2.
+
+// // 3. Finaliser la classe Query
+// 1.
+// 2.
+// 3.
+// 4.
+
+// // 4. La classe Model
+// 1.
+// 2.
+// 3.
+// 4.
+// 5.
+// 6.
+// 7.
+
+// // 5. Les "Finders"
+// 1.
+// 2. a)
+//    b)
+//    c)
+//    d)
+//    e)
+
+// // 6. Gestion des associations
+// 1.
+// 2.
+// 3.
+// 4.
+
+
+
+
