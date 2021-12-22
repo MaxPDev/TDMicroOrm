@@ -37,7 +37,7 @@ $req = $q->get();
 print_r($req);
 
 // 7. Methode insert()
-$id = Query::table('article')->insert(['nom'=>'Trombone', 'tarif'=>3500, 'descr'=>'Qualité exceptionnel, amélioré, à hydrogène', 'id_categ'=>1]);
+$id = Query::table('article')->insert(['nom'=>'Tricycle', 'tarif'=>3500, 'descr'=>'Qualité exceptionnel, amélioré, à hydrogène', 'id_categ'=>1]);
 echo 'article inséré, id : ' . $id . PHP_EOL;
 
 // 6. Méthode delete()
@@ -96,7 +96,7 @@ $a2->id_categ = 1;
 $a3 = new Article();
 $a3->nom = 'velo'; 
 $a3->tarif = 9947;
-$a3->descr = "velo nucléaire";
+$a3->descr = "velo électrique";
 $a3->id_categ = 1;
 
 $a2->insert();
@@ -136,16 +136,21 @@ print_r( Article::first([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id',
 
 // // 6. Gestion des associations
 // 1. belongs_to()
-echo "belongs_to : Récupération de la catégorie associée un article" . PHP_EOL;
+echo "--> belongs_to : Récupération de la catégorie associée un article" . PHP_EOL;
 $art = Article::first(65);
 $categorie = $a->belongs_to(Categorie::class, 'id_categ');
 print_r($categorie);
+echo PHP_EOL;
 
 // 2. has_many()
-echo "has_many() : Récupération des articles associé à une catégorie";
+echo "-- > has_many() : Récupération des articles associés à une catégorie" . PHP_EOL;
 $cat = Categorie::first(1);
 $list_article = $cat->has_many(Article::class, 'id_categ');
-echo "$";
+echo "Liste des articles de la catégoprie $cat->nom : " . PHP_EOL;
+foreach ($list_article as $article) {
+    echo "id : $article->id, nom : $article->nom " . PHP_EOL;
+}
+echo PHP_EOL;
 // 3.
 // 4.
 
