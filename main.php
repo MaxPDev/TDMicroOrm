@@ -26,38 +26,6 @@ use hellokant\model\Categorie;
 
 //////////////////////////////:://///////
 
-/**
- * Test des finders
- * (exemple correction vidéo)
- */
-
-//  $articles = Article::all();
-//  var_dump($articles);
-
-// $a = new Article();
-// $a->deletse;
-
-// $articles = Article::first([['nom','=','velo']]);
-// print_r($articles);
-// print_r($articles->categorie);
-
-// $cat = Categorie::first(1);
-// print_r($cat);
-// print_r($cat->articles);
-//  $articles = Article::find(106);
-//  var_dump($articles);
-
-//  $articles = Article::find(['nom','tarif'], 64);
-//  var_dump($articles);
-
-//  $articles = Article::find(['nom','tarif'], ['id','=', 64]);
-//  var_dump($articles);
-
-//  $articles = Article::find(['nom','tarif'], ['nom','like','$velo$']);
-//  var_dump($articles);
-
-////////////
-
 // // 1. La classe Query - 3. Finaliser la classe Query
 // 1 - 5 : Créer la classe Query, 
 // les méthodes table(...), select(...), where(...), get(...)
@@ -207,3 +175,32 @@ echo "$";
 // }
 
 
+/**
+ * Test des finders
+ * (exemple correction vidéo)
+ */
+
+//  $articles = Article::all();
+//  var_dump($articles);
+
+// $a = new Article();
+// $a->deletse;
+
+// $articles = Article::first([['nom','=','velo']]);
+// print_r($articles);
+// print_r($articles->categorie);
+
+// $cat = Categorie::first(1);
+// print_r($cat);
+// print_r($cat->articles);
+//  $articles = Article::find(106);
+//  var_dump($articles);
+
+//  $articles = Article::find(['nom','tarif'], 64);
+//  var_dump($articles);
+
+//  $articles = Article::find(['nom','tarif'], ['id','=', 64]);
+//  var_dump($articles);
+
+//  $articles = Article::find(['nom','tarif'], ['nom','like','$velo$']);
+//  var_dump($articles);
