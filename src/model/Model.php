@@ -50,6 +50,8 @@ abstract class Model {
     /**
      * Supprime la ligne de la table correspondant à l'objet instancié
      * en utilisant son id
+     * Retourne le nombre de ligne supprimer.
+     * (Un autre choix pourrait être de retourner l'id de la ligne supprimée)
      */
     public function delete() {
 
@@ -65,6 +67,7 @@ abstract class Model {
         return Query::table(static::$table)
                     ->where(static::$idColumn, '=', $id_to_delete)
                     ->delete();
+
     }
 
     /**

@@ -50,10 +50,6 @@ use hellokant\model\Categorie;
 
 // $a->delete();
 
-// $liste = Article::all();
-// foreach ($liste as $article) {
-//     echo $article->nom . PHP_EOL;
-// }
 
 // $findTest1 = Article::find(64);
 // print_r($findTest1);
@@ -144,7 +140,7 @@ print_r($req);
 
 // 7. Methode insert()
 $id = Query::table('article')->insert(['nom'=>'Trombone', 'tarif'=>3500, 'descr'=>'Qualité exceptionnel, amélioré, à hydrogène', 'id_categ'=>1]);
-echo 'article inséré id : ' . $id . PHP_EOL;
+echo 'article inséré, id : ' . $id . PHP_EOL;
 
 // 6. Méthode delete()
 $qd = Query::table('article')->where('id', '=', $id);
@@ -169,32 +165,76 @@ $q3 = Query::table('article')
 echo "Méthode one()" . PHP_EOL;
 print_r($q3);
 
-
-// 1.
-// 2.
-
-// // 3. Finaliser la classe Query
-// 1.
-// 2.
-// 3.
-// 4.
-
 // // 4. La classe Model
-// 1.
-// 2.
-// 3.
-// 4.
-// 5.
-// 6.
-// 7.
+// 1 - 4 : $_v, _get(), set(), création d'un article
+$a = new Article();
+$a->nom = 'velo'; 
+$a->descr = 'vélo 72 vitesses';
+$a->tarif = 376;
+$a->id_categ = 1;
 
+// accès aux attributs
+echo "Article créé : " . PHP_EOL;
+echo "nom : " . $a->nom . PHP_EOL;
+echo "description : " . $a->descr . PHP_EOL;
+echo "tarif : " . $a->tarif . PHP_EOL;
+echo "id_categ : " . $a->id_categ . PHP_EOL;
+
+
+// 5 - 7 : insert(), delete()
+$a->insert();
+echo 'article inséré, id : ' . $a->id . PHP_EOL;
+echo "Suppression de cet article : ";
+echo $a->delete() . " ligne supprimée" . PHP_EOL;
+
+// Création et insertion de nouveaux articles, 
+// utilisés pour illustrer le fonctionnement des finders:
+$a2 = new Article();
+$a2->nom = 'velo'; 
+$a2->tarif = 99;
+$a2->descr = "velo noir";
+$a2->id_categ = 1;
+
+$a3 = new Article();
+$a3->nom = 'velo'; 
+$a3->tarif = 9947;
+$a3->descr = "velo nucléaire";
+$a3->id_categ = 1;
+
+$a2->insert();
+
+echo PHP_EOL . PHP_EOL;
 // // 5. Les "Finders"
-// 1.
-// 2. a)
-//    b)
-//    c)
-//    d)
-//    e)
+echo "--> Finders : " . PHP_EOL;
+// 1. all()
+echo "methode all() :" . PHP_EOL;
+$liste = Article::all();
+foreach ($liste as $article) {
+    echo "id : $article->id, nom : $article->nom, tarif : $article->tarif, etc..." . PHP_EOL;
+}
+echo PHP_EOL;
+
+// 2. a) find(id)
+echo "Article::find(64) : " . PHP_EOL;
+$find_test_1 = Article::find(64);
+print_r($find_test_1[0]); 
+
+//    b) find(id, [cols])
+echo "Article::find(64, ['id', 'nom', 'tarif']" . PHP_EOL;
+$find_test_2 = Article::find(64, ['id', 'nom', 'tarif']);
+print_r($find_test_2[0]);
+
+//    c) find([[where]], [cols])
+echo "Article::find([['tarif', '<', 200]], ['id', 'nom', 'tarif']" . PHP_EOL;
+print_r( Article::find([['tarif', '<', 200]], ['id', 'nom', 'tarif']) );
+
+//    d) find([[wheres]], [cols])
+echo "Article::find([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'nom', 'tarif'])" . PHP_EOL;
+print_r( Article::find([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'nom', 'tarif']) );
+
+//    e) first([[wheres]], [cols])
+echo "Article::first([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'nom', 'tarif'])" . PHP_EOL;
+print_r( Article::first([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'nom', 'tarif']) );
 
 // // 6. Gestion des associations
 // 1.
