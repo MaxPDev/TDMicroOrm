@@ -60,7 +60,7 @@ $q3 = Query::table('article')
             ->select(['id', 'nom', 'descr', 'tarif'])
             ->one();
 
-echo "Méthode one()" . PHP_EOL;
+echo "Méthode one() de la classe Query" . PHP_EOL;
 print_r($q3);
 
 // // 4. La classe Model
@@ -134,6 +134,12 @@ print_r( Article::find([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 
 echo "Article::first([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'nom', 'tarif'])" . PHP_EOL;
 print_r( Article::first([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'nom', 'tarif']) );
 
+// methode one()
+echo "Methode one() de la classe Model : Article::one(64)" . PHP_EOL;
+$t = Article::one(64);
+print_r($t);
+
+
 // // 6. Gestion des associations
 // 1. belongs_to()
 echo "--> belongs_to : Récupération de la catégorie associée un article" . PHP_EOL;
@@ -151,61 +157,33 @@ foreach ($list_article as $article) {
     echo "id : $article->id, nom : $article->nom " . PHP_EOL;
 }
 echo PHP_EOL;
-// 3.
+
+// 3. 1. categorie()
+echo "-- > Méthode categorie() de la classe Article, retournant la catégorie d'un article :" . PHP_EOL;
+echo "Article::first(64)->categorie()" . PHP_EOL;
+$categ = Article::first(64)->categorie();
+print_r($categ);
+echo PHP_EOL;
+
+//    2. article()
+echo "-- > Méthode articles() de la classe Categorie, retournant les articles d'une catégorie :" . PHP_EOL;
+echo "Categorie::first(1)->articles()" . PHP_EOL;
+$list = Categorie::first(1)->articles();
+foreach ($list as $article) {
+    echo "id : $article->id, nom : $article->nom " . PHP_EOL;
+}
+echo PHP_EOL;
+
 // 4.
+// ->categorie
+echo 'Affichage d\'une catégorie avec la syntaxe : $a->categorie' . PHP_EOL;
+$a = Article::first(64);
+$cat = $a->categorie;
+print_r($cat);
+echo PHP_EOL;
 
-
-
-
-// print_r($list_article1);
-// // print_r($list_article2);
-
-// $c = Categorie::first(1);
-// $list_art = $c->articles;
-
-// print_r($list_art);
-
-// $art65 = Article::find("*");
-// $cat_art65 = $art65->categorie;
-
-// print_r($art65);
-
-// $z = new Article();
-// $z->delete();
-
-// $t = Article::one(106);
-// var_dump($t);
-// foreach ($t as $tu) {
-//     echo $tu['id'] . PHP_EOL;
-// }
-
-
-/**
- * Test des finders
- * (exemple correction vidéo)
- */
-
-//  $articles = Article::all();
-//  var_dump($articles);
-
-// $a = new Article();
-// $a->deletse;
-
-// $articles = Article::first([['nom','=','velo']]);
-// print_r($articles);
-// print_r($articles->categorie);
-
-// $cat = Categorie::first(1);
-// print_r($cat);
-// print_r($cat->articles);
-//  $articles = Article::find(106);
-//  var_dump($articles);
-
-//  $articles = Article::find(['nom','tarif'], 64);
-//  var_dump($articles);
-
-//  $articles = Article::find(['nom','tarif'], ['id','=', 64]);
-//  var_dump($articles);
-
-//  $articles = Article::find(['nom','tarif'], ['nom','like','$velo$']);
-//  var_dump($articles);
+// ->article
+echo 'Affichage des article avec la syntaxe : $c->articles' . PHP_EOL;
+$c = Categorie::first(1);
+$list_articles = $c->articles;
+print_r($list_articles);
