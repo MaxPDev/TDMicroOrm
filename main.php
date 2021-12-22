@@ -26,76 +26,6 @@ use hellokant\model\Categorie;
 
 //////////////////////////////:://///////
 
-
-// $a = new Article();
-// $a->nom = 'velo'; 
-// $a->tarif = 273;
-// $a->id_categ = 1;
-// $a->insert();
-
-// $a2 = new Article();
-// $a2->nom = 'tableau'; 
-// $a2->tarif = 78;
-// $a2->descr = "Tableau d'école";
-// $a2->id_categ = 1;
-// $a2->insert();
-
-// $a3 = new Article();
-// $a3->nom = 'velo'; 
-// $a3->tarif = 2000;
-// $a3->descr = "Tableau d'école";
-// $a3->id_categ = 1;
-// $a3->insert();
-
-
-// $a->delete();
-
-
-// $findTest1 = Article::find(64);
-// print_r($findTest1);
-
-
-// $findTest2 = Article::find([['nom','like','velo'], ['tarif','<=', 100]], ['nom','tarif']);
-// print_r($findTest2);
-
-// $firstTest1 = Article::one(64);
-// print_r($firstTest1);
-
-// // $firstTest2 = Article::first(['tarif', '<=', 100 ]); //vérifier demander si example ok
-// $firstTest2 = Article::first([['tarif', '<=', 100 ]]);
-// print_r($firstTest2);
-
-// $categorie1 = $firstTest1->categorie();
-// print_r($categorie1);
-
-// $categorie2 = Categorie::first(1);
-
-// $list_article1 = $categorie1->articles();
-// $list_article2 = $categorie2->articles();
-
-// print_r($list_article1);
-// // print_r($list_article2);
-
-// $c = Categorie::first(1);
-// $list_art = $c->articles;
-
-// print_r($list_art);
-
-// $art65 = Article::find("*");
-// $cat_art65 = $art65->categorie;
-
-// print_r($art65);
-
-// $z = new Article();
-// $z->delete();
-
-// $t = Article::one(106);
-// var_dump($t);
-// foreach ($t as $tu) {
-//     echo $tu['id'] . PHP_EOL;
-// }
-
-
 /**
  * Test des finders
  * (exemple correction vidéo)
@@ -244,11 +174,36 @@ $categorie = $a->belongs_to(Categorie::class, 'id_categ');
 print_r($categorie);
 
 // 2. has_many()
+echo "has_many() : Récupération des articles associé à une catégorie";
 $cat = Categorie::first(1);
-$list_article = $cat->has_many(Article::class, 'id_categ')
+$list_article = $cat->has_many(Article::class, 'id_categ');
+echo "$";
 // 3.
 // 4.
 
 
+
+
+// print_r($list_article1);
+// // print_r($list_article2);
+
+// $c = Categorie::first(1);
+// $list_art = $c->articles;
+
+// print_r($list_art);
+
+// $art65 = Article::find("*");
+// $cat_art65 = $art65->categorie;
+
+// print_r($art65);
+
+// $z = new Article();
+// $z->delete();
+
+// $t = Article::one(106);
+// var_dump($t);
+// foreach ($t as $tu) {
+//     echo $tu['id'] . PHP_EOL;
+// }
 
 
