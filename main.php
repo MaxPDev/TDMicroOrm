@@ -237,8 +237,15 @@ echo "Article::first([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'n
 print_r( Article::first([['nom', 'like', '%velo%'], ['tarif', '<', 200]], ['id', 'nom', 'tarif']) );
 
 // // 6. Gestion des associations
-// 1.
-// 2.
+// 1. belongs_to()
+echo "belongs_to : Récupération de la catégorie associée un article" . PHP_EOL;
+$art = Article::first(65);
+$categorie = $a->belongs_to(Categorie::class, 'id_categ');
+print_r($categorie);
+
+// 2. has_many()
+$cat = Categorie::first(1);
+$list_article = $cat->has_many(Article::class, 'id_categ')
 // 3.
 // 4.
 
