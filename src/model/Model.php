@@ -4,8 +4,6 @@ namespace hellokant\model;
 
 use hellokant\query\Query;
 
-// Doit être abstract ??
-
 abstract class Model {
 
     protected static $table;
@@ -23,7 +21,7 @@ abstract class Model {
 
     /**
      * Fonction magique __get
-     * Vérifie l'existence d'un attribut parmis les clé du tableau $_v
+     * Vérifie l'existence d'un attribut parmis les clés du tableau $_v
      * et le retourne si c'est le cas.
      * Après le parcours des clés, vérifie si une méthode de la classe correspond
      * au paramètre de la fonction et l'éxécute, pour permette une simplification syntaxique à l'utilisation
@@ -50,7 +48,7 @@ abstract class Model {
     /**
      * Supprime la ligne de la table correspondant à l'objet instancié
      * en utilisant son id
-     * Retourne le nombre de ligne supprimer.
+     * Retourne le nombre de lignes supprimées.
      * (Un autre choix pourrait être de retourner l'id de la ligne supprimée)
      */
     public function delete() {
@@ -71,8 +69,8 @@ abstract class Model {
     }
 
     /**
-     * Insert une ligne dnas la base selon les attribut de l'objet en cours
-     * L'id créé et récupérer, converti en entier et est mis à jour dans l'objet courant
+     * Insert une ligne dnas la base selon les attributs de l'objet en cours
+     * L'id créé et récupéré, convertit en entier et est mis à jour dans l'objet courant
      */
     public function insert() {
         // Insert les données, récupére la valeur de l'id auto incrémenté
@@ -101,7 +99,7 @@ abstract class Model {
 
     /**
      * Récupère une ligne de la table en utilisant l'identifiant passé en parmètre.
-     * Instancie depuis la classe concrète hérité de cette class et la retourne
+     * Instancie depuis la classe concrète hérité de cette classe et la retourne
      */
     public static function one(int $id) {
 
@@ -118,9 +116,9 @@ abstract class Model {
      * Peut prendre un ou deux paramètres
      * 
      * Si le premier paramètre est un entier, il sera traité comme un id.
-     * Si c'est un tableau, il est condidérer comme un tableau de where
+     * Si c'est un tableau, il est condidéré comme un tableau de where.
      *   
-     * Le deuxième argument correspond aux colonnes voulues.
+     * Le deuxième argument correspond aux colonnes.
      * S'il n'est pas précisé, il est rempli par '*', c'est-à-dire toutes les colonnes.
      */
 

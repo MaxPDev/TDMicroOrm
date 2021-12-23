@@ -33,7 +33,7 @@ class Query {
     /**
      * Récupère en pramètre un tableau contenant une liste de colonnes de colonnes de table.
      * La stock dans l'attribut $field, pour composer la requête grâce à une autre méthode.
-     * Par défaut, $field  contient *, c'est à dire toutes les collonnes.
+     * Par défaut, $field  contient *, c'est à dire toutes les colonnes.
      * Retourne l'objet Query courant, pour permmettre le chainage des méthodes avec ->
      */
     public function select(array $fields): Query {
@@ -63,7 +63,7 @@ class Query {
 
     /**
      * Récupère en paramètre une ou plusieurs condition alternatives à une ou des conditions where :
-     * une colonne, un opérateur et une valeure.
+     * une colonne, un opérateur et une valeur.
      * Stock la condition dans l'attribus $where et y modifie la valeur par ? pour le bindparam (éviter injection)
      * Stock la ou les valeurs dans l'attribut $args
      */
@@ -76,19 +76,13 @@ class Query {
 
         return $this;
     }
-
-      /* Query::table('client')->select(['nom', 'mail'])
-                    ->where('ville', 'like', 'nancy')
-                    ->where('age','=','12)
-                    ->get()
-        */
     
     /**
      * Utilise les attribut $field, $sqltable et $where pour composer la requête
      * Récupère la connexion pdo vers la base de donnée
      * Lance la préparation de la requête (ici exécuter par le serveur)
      * Exécuter la requête
-     * Récupère et retourne le résultat sous form d'un tableau de ligneq de table
+     * Récupère et retourne le résultat sous forme d'un tableau de lignes de table
      */        
     public function get() : array {
         $this->sql = 'select ' . $this->fields . // later : ?.
@@ -141,7 +135,7 @@ class Query {
      * et des valeurs en valeur.
      * Compose la requête d'insertion
      * Récupère la connection pdo
-     * Executer la recquête
+     * Execute la requête
      * Récupère en retour de la base de donnée l'id de la dernière ligne insérée
      * et le retourne.
      */
@@ -191,7 +185,7 @@ class Query {
      * Récupère la connexion pdo
      * Exécute la requête de suppression
      * Récupère de la base de donnée le nombre de lignes supprimées,
-     * et le retourne (même si pas utilisé dans Model pour ce td)
+     * et le retourne.
      */
     public function delete() {
         // DELETE FROM `table`

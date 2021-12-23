@@ -13,16 +13,16 @@ require __DIR__ . '/vendor/autoload.php';
 // Query use
 use hellokant\query\Query;
 
+// use hellokant\model\Model;
+use hellokant\model\Article;
+use hellokant\model\Categorie;
+
 // Connection with DB
 use hellokant\connection\ConnectionFactory;
 
 // // 2. Gestion de la connexion à la base
 $conf = parse_ini_file('conf/conf.ini');
 ConnectionFactory::makeConnection($conf);
-
-// use hellokant\model\Model;
-use hellokant\model\Article;
-use hellokant\model\Categorie;
 
 //////////////////////////////:://///////
 
@@ -46,21 +46,23 @@ echo($qd->delete());
 echo PHP_EOL;
 
 // 8. Chainage des méthodes where()
+echo "Chainage des where()" . PHP_EOL;
+
 $q2 = Query::table('article')
     ->select(['id', 'nom', 'descr', 'tarif'])
     ->where('tarif', '<', 200)
     ->where('id','>=', 65)
     ->get();
     
-echo "Chainage des where()" . PHP_EOL;
 print_r($q2);
 
 // Methode one()
+echo "Méthode one() de la classe Query" . PHP_EOL;
+
 $q3 = Query::table('article')
             ->select(['id', 'nom', 'descr', 'tarif'])
             ->one();
 
-echo "Méthode one() de la classe Query" . PHP_EOL;
 print_r($q3);
 
 // // 4. La classe Model
