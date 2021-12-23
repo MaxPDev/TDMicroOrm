@@ -6,8 +6,8 @@ namespace hellokant\model;
  * Class Categorie
  */
 
-class Categorie extends Model {
-
+class Categorie extends Model
+{
     protected static $table = 'categorie';
     protected static $idColumn = 'id';
 
@@ -19,5 +19,4 @@ class Categorie extends Model {
     {
         return $this->has_many(Article::class, 'id_categ');
     }
-    
 }

@@ -5,8 +5,8 @@ namespace hellokant\query;
 use hellokant\connection\ConnectionFactory;
 // use hellokant\connection\ConnectionFactoryTry as ConnectionFactory;
 
-class Query {
-
+class Query
+{
     private $sqltable;
     private $fields = '*'; // par défaut, select *
     private $where = null;
@@ -17,7 +17,8 @@ class Query {
      * Query constructor
      * @params string $table : nom de la table sur laquelle porte la requête
      */
-    private function __construct(string $table) {
+    private function __construct(string $table)
+    {
         $this->sqltable = $table;
     }
 
@@ -25,7 +26,8 @@ class Query {
      * Récupère le nom de la table en paramètre, l'utilise pour créer un objet Query
      * Retourne l'objet instancié
      */
-    public static function table(string $table) : Query {
+    public static function table(string $table): Query
+    {
         $query = new Query($table);
         return $query;
     }
@@ -36,11 +38,11 @@ class Query {
      * Par défaut, $field  contient *, c'est à dire toutes les colonnes.
      * Retourne l'objet Query courant, pour permmettre le chainage des méthodes avec ->
      */
-    public function select(array $fields): Query {
+    public function select(array $fields): Query
+    {
         $this->fields = implode(',', $fields);
         return $this;
     }
-
 
     /**
      * Récupère en paramètre une  ou plusieurs condition pour écrire un where :
@@ -48,7 +50,8 @@ class Query {
      * Stock la condition dans l'attribus $where et y modifie la valeur par ? pour le bindparam (éviter injection)
      * Stock la ou les valeurs dans l'attribut $args
      */
-    public function where(string $col, string $op, $val) : Query {
+    public function where(string $col, string $op, $val): Query
+    {
         // mixed only in php8
 
         if (!is_null($this->where)) {
@@ -60,33 +63,38 @@ class Query {
         return $this;
     }
 
-
     /**
      * Récupère en paramètre une ou plusieurs condition alternatives à une ou des conditions where :
      * une colonne, un opérateur et une valeur.
      * Stock la condition dans l'attribus $where et y modifie la valeur par ? pour le bindparam (éviter injection)
      * Stock la ou les valeurs dans l'attribut $args
      */
-    public function orWhere(string $col, string $op, $val) : Query {
+    public function orWhere(string $col, string $op, $val): Query
+    {
         if (!is_null($this->where)) {
             $this->where .= ' or ';
         }
         $this->where .= ' ' . $col . ' ' . $op . ' ? ';
-        $this->args[]=$val;
+        $this->args[] = $val;
 
         return $this;
     }
-    
+
     /**
      * Utilise les attribut $field, $sqltable et $where pour composer la requête
      * Récupère la connexion pdo vers la base de donnée
      * Lance la préparation de la requête (ici exécuter par le serveur)
      * Exécuter la requête
      * Récupère et retourne le résultat sous forme d'un tableau de lignes de table
-     */        
-    public function get() : array {
-        $this->sql = 'select ' . $this->fields . // later : ?.
-                     ' from ' . $this->sqltable;
+     */
+
+    public function get(): array
+    {
+        $this->sql =
+            'select ' .
+            $this->fields . // later : ?.
+            ' from ' .
+            $this->sqltable;
 
         if (!is_null($this->where)) {
             $this->sql .= ' where ' . $this->where;
@@ -104,7 +112,6 @@ class Query {
         $stmt->execute($this->args);
         // var_dump($stmt);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        
     }
 
     /**
@@ -113,10 +120,11 @@ class Query {
      * Lance la préparation de la requête (ici exécuter par le serveur)
      * Exécuter la requête
      * Récupère et retourne le résultat d'une ligne de table sous form d'un tableau.
-     */ 
-    public function one() {
-        $this->sql = 'select ' . $this->fields . 
-                ' from ' . $this->sqltable;
+     */
+
+    public function one()
+    {
+        $this->sql = 'select ' . $this->fields . ' from ' . $this->sqltable;
 
         if (!is_null($this->where)) {
             $this->sql .= ' where ' . $this->where;
@@ -139,27 +147,24 @@ class Query {
      * Récupère en retour de la base de donnée l'id de la dernière ligne insérée
      * et le retourne.
      */
-    public function insert(array $datas) : string {
-
+    public function insert(array $datas): string
+    {
         $atts = "";
         $vals = "";
 
         foreach ($datas as $attribut => $value) {
-
             if ($attribut !== array_key_last($datas)) {
                 $atts .= $attribut . ', ';
-                $vals .= ' ? ' . ', '; 
+                $vals .= ' ? ' . ', ';
                 $this->args[] = $value;
             } else {
                 $atts .= $attribut;
-                $vals .= ' ? ' ;
+                $vals .= ' ? ';
                 $this->args[] = $value;
             }
         }
 
-        $this->sql = 'insert into ' . $this->sqltable .
-                    ' (' . $atts . ')' . ' values ' .
-                    '(' . $vals . ');';
+        $this->sql = 'insert into ' . $this->sqltable . ' (' . $atts . ')' . ' values ' . '(' . $vals . ');';
 
         $pdo = ConnectionFactory::getConnection();
         $stmt = $pdo->prepare($this->sql);
@@ -168,7 +173,6 @@ class Query {
 
         return $pdo->lastInsertId();
 
-
         // // Autre possiblité. Plus optimisée ?
 
         // $pdo = ConnectionFactory::connection();
@@ -176,7 +180,6 @@ class Query {
         // $stmt = $pdo->prepare($this->sql);
         // $stmt->execute(array_values($fields));
         // return $pdo->lastInsertId();
-        
     }
 
     /**
@@ -187,22 +190,19 @@ class Query {
      * Récupère de la base de donnée le nombre de lignes supprimées,
      * et le retourne.
      */
-    public function delete() {
+    public function delete()
+    {
         // DELETE FROM `table`
         // WHERE condition
-        
-        $this->sql = 'delete from ' . $this->sqltable .
-                    ' where ' . $this->where;
+
+        $this->sql = 'delete from ' . $this->sqltable . ' where ' . $this->where;
 
         // return $this->sql;
-        
+
         $pdo = ConnectionFactory::getConnection();
         $stmt = $pdo->prepare($this->sql);
         // var_dump($stmt->debugDumpParams());
         $stmt->execute($this->args);
         return $stmt->rowCOunt();
     }
-
-
-
 }

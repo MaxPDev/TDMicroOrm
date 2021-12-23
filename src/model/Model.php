@@ -4,8 +4,8 @@ namespace hellokant\model;
 
 use hellokant\query\Query;
 
-abstract class Model {
-
+abstract class Model
+{
     protected static $table;
     protected static $idColumn = 'id';
 
@@ -15,8 +15,11 @@ abstract class Model {
      * Construit un objet Model
      * Prepare le tableau d'attributs
      */
-    public function __construct(array $t = null) {
-        if (!is_null($t)) $this->_v = $t;
+    public function __construct(array $t = null)
+    {
+        if (!is_null($t)) {
+            $this->_v = $t;
+        }
     }
 
     /**
@@ -26,12 +29,14 @@ abstract class Model {
      * Après le parcours des clés, vérifie si une méthode de la classe correspond
      * au paramètre de la fonction et l'éxécute, pour permette une simplification syntaxique à l'utilisation
      */
-    public function __get(string $attr_name) {
+    public function __get(string $attr_name)
+    {
         if (array_key_exists($attr_name, $this->_v)) {
             return $this->_v[$attr_name];
         }
-        if (method_exists($this, $attr_name))
+        if (method_exists($this, $attr_name)) {
             return $this->$attr_name();
+        }
 
         throw new ModelException(get_called_class() . " Attribut or Method doesn't exist");
     }
@@ -41,7 +46,8 @@ abstract class Model {
      * Prends en paramètre le nom d'un attribut et sa valeur,
      * et la stock dans l'attribut de class $_v
      */
-    public function __set(string $name, $val) : void {
+    public function __set(string $name, $val): void
+    {
         $this->_v[$name] = $val;
     }
 
@@ -51,8 +57,8 @@ abstract class Model {
      * Retourne le nombre de lignes supprimées.
      * (Un autre choix pourrait être de retourner l'id de la ligne supprimée)
      */
-    public function delete() {
-
+    public function delete()
+    {
         $id_to_delete = isset($this->_v[static::$idColumn]) ? $this->_v[static::$idColumn] : null;
 
         if (is_null($id_to_delete)) {
@@ -63,22 +69,21 @@ abstract class Model {
             throw new ModelException("Non PK, can't delete");
         }
         return Query::table(static::$table)
-                    ->where(static::$idColumn, '=', $id_to_delete)
-                    ->delete();
-
+            ->where(static::$idColumn, '=', $id_to_delete)
+            ->delete();
     }
 
     /**
      * Insert une ligne dnas la base selon les attributs de l'objet en cours
      * L'id créé et récupéré, convertit en entier et est mis à jour dans l'objet courant
      */
-    public function insert() {
+    public function insert()
+    {
         // Insert les données, récupére la valeur de l'id auto incrémenté
-        $lastInsertId = Query::table(static::$table)
-                        ->insert($this->_v);
+        $lastInsertId = Query::table(static::$table)->insert($this->_v);
 
         // Stock l'id nouvellement créer dans le tableau d'attributs
-        $this->_v[static::$idColumn] = (int)$lastInsertId;
+        $this->_v[static::$idColumn] = (int) $lastInsertId;
         return $lastInsertId;
     }
 
@@ -88,10 +93,11 @@ abstract class Model {
      * et le stock dans un tableau
      * Renvoie le tableau d'objet représentant les lignes de la table.
      */
-    public static function all() : array {
+    public static function all(): array
+    {
         $all = Query::table(static::$table)->get();
         $return = [];
-        foreach($all as $m) {
+        foreach ($all as $m) {
             $return[] = new static($m);
         }
         return $return;
@@ -101,11 +107,11 @@ abstract class Model {
      * Récupère une ligne de la table en utilisant l'identifiant passé en parmètre.
      * Instancie depuis la classe concrète hérité de cette classe et la retourne
      */
-    public static function one(int $id) {
-
+    public static function one(int $id)
+    {
         $row = Query::table(static::$table)
-                    ->where(static::$idColumn, '=', $id)
-                    ->one();
+            ->where(static::$idColumn, '=', $id)
+            ->one();
 
         return new static($row);
     }
@@ -114,24 +120,25 @@ abstract class Model {
      * Retourne les lignes sous forme d'un tableau d'objet instancié
      * de la class concrète appelante.
      * Peut prendre un ou deux paramètres
-     * 
+     *
      * Si le premier paramètre est un entier, il sera traité comme un id.
      * Si c'est un tableau, il est condidéré comme un tableau de where.
-     *   
+     *
      * Le deuxième argument correspond aux colonnes.
      * S'il n'est pas précisé, il est rempli par '*', c'est-à-dire toutes les colonnes.
      */
 
-
     // syntax find(id)  find(id,[cols]) find([[where1]], null), find([[where1, where2, where3]], [cols]))
 
-    public static function find($wheres=null, array $cols = ['*']) : array {
+    public static function find($wheres = null, array $cols = ['*']): array
+    {
         $return = [];
-    
-        if(is_null($wheres)) return static::all();
 
-        $find = Query::table(static::$table)
-                    ->select($cols);
+        if (is_null($wheres)) {
+            return static::all();
+        }
+
+        $find = Query::table(static::$table)->select($cols);
 
         if (is_int($wheres)) {
             $find = $find->where(static::$idColumn, '=', $wheres);
@@ -142,22 +149,22 @@ abstract class Model {
                 $find = $find->where(...$where);
             }
         }
-    
-       $find = $find->get();
-       foreach ($find as $row) {
-           $return[] = new static($row);
-       }
 
-       return $return;
+        $find = $find->get();
+        foreach ($find as $row) {
+            $return[] = new static($row);
+        }
+
+        return $return;
     }
-
 
     /**
      * Fonctionne comme find(), mais retourne le 1er element du tableau
      */
-    public static function first($wheres, array $cols = ['*']) : Model {
+    public static function first($wheres, array $cols = ['*']): Model
+    {
         $find = static::find($wheres, $cols);
-       return $find[0];
+        return $find[0];
     }
 
     /**
@@ -166,15 +173,15 @@ abstract class Model {
      * et le nom de l'attribut, clé de l'id de la table à associer.
      * contenu dans le tableau d'attribut $_v de l'objet courant,
      */
-    public function belongs_to($f_model_name, $fk_name) {
+    public function belongs_to($f_model_name, $fk_name)
+    {
         $f_table = Query::table($f_model_name::$table)
-                        ->where($f_model_name::$idColumn, '=', $this->_v[$fk_name])
-                        ->get()[0];  
-        return(new $f_model_name($f_table));
+            ->where($f_model_name::$idColumn, '=', $this->_v[$fk_name])
+            ->get()[0];
+        return new $f_model_name($f_table);
 
         // // ou :
         // return $f_model_name::first($this->$fk_name);
-
     }
 
     /**
@@ -182,8 +189,8 @@ abstract class Model {
      * Prends en paramètre le nom du modèle lié, et le nom de la clé étrangère,
      * afin de comparer sa valeur avec celle de l'id du modèl courant.
      */
-    public function has_many($f_model_name, $id_name) {
-
+    public function has_many($f_model_name, $id_name)
+    {
         return $f_model_name::find([[$id_name, '=', $this->_v[static::$idColumn]]]);
 
         // // ou :
@@ -200,5 +207,4 @@ abstract class Model {
 
         // return $return;
     }
-
 }
